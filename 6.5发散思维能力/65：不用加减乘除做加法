@@ -1,0 +1,28 @@
+//题目：n个骰子扔在地上，所有骰子朝上一面的点数之和为s，输入n，打印出s所有可能出现的概率
+
+//首先我们考虑递归的做法
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#pragma warning(disable : 4996)
+#define TOTAL 166
+using namespace std;
+
+//剥夺了四则运算，能用的只有位运算了
+
+int add(int num1,int num2)
+{
+    int sum,carry;
+    while(num2!=0)
+    {
+        sum=num1^num2;
+        carry=(num1&num2)<<1;
+        num1=sum;
+        num2=carry;
+    }
+    return num1;
+}
