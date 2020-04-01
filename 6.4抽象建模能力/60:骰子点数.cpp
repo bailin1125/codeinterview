@@ -50,3 +50,40 @@ void print_probality(int number)
     }
     delete[] probalities;
 }
+//我们再用一下非递归的做法，使用两个数组来保存中间数值
+void print_probality(int number)
+{
+    if(number<1)
+        return;
+    int **pro=new int*[2];
+    for(int i=0;i<2;i++)
+    {
+        pro[i]=new int[max_value*number+1];
+        for(int j=0;j<max_value*number+1;j++)
+            pro[i][j]=0;
+    }
+    int flag=0;//用来标记当前处理的是什么数组
+    //然后给当前的赋初值
+    for(int i=1;i<=max_value;i++)
+    {
+        pro[flag][i]=1;
+    }
+    //然后从第二个骰子开始放
+    for(int k=2;k<=number;k++)
+    {
+        for(int i=0;i<k;i++)
+            pro[1-flag][i]=0;
+        for(int i=k;i<max_value*k;i++)
+        {
+            pro[1-flag][i]=0;
+            for(int j=1;j<=i && j<=max_value;j++)
+            {
+                pro[1-flag][i]+=pro[flag][i-j];
+            }
+        }
+        flag=1-flag;
+    }
+    delete[]pro[0];
+    delete []pro[1];
+    delete[]pro;
+}
