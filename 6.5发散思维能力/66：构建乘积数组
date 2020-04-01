@@ -1,0 +1,37 @@
+//题目：n个骰子扔在地上，所有骰子朝上一面的点数之和为s，输入n，打印出s所有可能出现的概率
+
+//首先我们考虑递归的做法
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#pragma warning(disable : 4996)
+#define TOTAL 166
+using namespace std;
+
+vector<int> get_times(vector<int>& nums)
+{
+   vector<int> front(nums.size());
+   vector<int> back(nums.size());
+   vector<int> res(nums.size(),0);
+   front[1]=nums[0];
+   front[0]=1;
+   for(int i=2;i<nums.size();i++)
+   {
+       front[i]=nums[i-1]*front[i-2];
+   }
+   back[nums.size()-1]=1;
+   for(int i=nums.size()-3;i>=0;i--)
+   {
+       back[i]=nums[i+1]*back[i+2];
+   }
+   for(int i=0;i<nums.size();i++)
+   {
+       res[i]=front[i]*back[i];
+   }
+   return res;
+}
