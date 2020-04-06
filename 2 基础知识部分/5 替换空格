@@ -1,0 +1,52 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#pragma warning(disable : 4996)
+using namespace std;
+
+//5 替换空格
+void replace_string(char* str,int length)
+{
+    //这里length是可以用的总长度
+
+    if(str==NULL||length<=0)
+        return;
+    int blank_num=0;
+    int origin_num=0;
+    int i=0;
+    while(str[i]!='\0')
+    {
+        origin_num++;
+        if (str[i] == ' ')
+            blank_num++;
+    }
+    int new_length=origin_num+2*blank_num;
+    if(new_length>length)
+        return;
+    //然后使用两个指针指向两个位置
+    int index_ori=origin_num;
+    int index_new=new_length;
+    while(index_ori>=0 && index_new>index_ori)
+    {
+        if(str[index_ori]==' ')
+        {
+            str[index_new]='0';
+            str[index_new-1] = '2';
+            str[index_new-2] = '%';
+            index_new-=3;
+        }
+        else
+        {
+            str[index_new]=str[index_ori];
+            index_new--;
+        }
+        index_ori--;
+    }
+        
+    
+}
