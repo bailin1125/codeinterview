@@ -1,0 +1,91 @@
+//题目：n个骰子扔在地上，所有骰子朝上一面的点数之和为s，输入n，打印出s所有可能出现的概率
+
+//首先我们考虑递归的做法
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#pragma warning(disable : 4996)
+using namespace std;
+
+//3：数组中重复的数字
+
+//题目1：找出重复数字
+//可以先排序或者使用哈希表
+//这里我们介绍一种巧妙地方法,这个长度为n的数组，数字都是0-n-1的
+
+int get_duplite(int* data,int num)
+{
+    if(data==NULL|| num<=0)
+        return 0;
+    for(int i=0;i<num;i++)
+    {
+        while(data[i]!=i)
+        {
+            if(data[i]==data[data[i]])  
+                return data[i];
+            //否则我需要交换
+            int temp=data[i];
+            data[i]=data[data[i]];
+            data[data[i]]=temp;
+        }
+    }
+    return 0;
+}
+
+//题目2：n+1的数组内容都是1-n，不修改数组找到重复数字
+//我们使用分支的办法，划分为两半不断寻找
+int count(int *data, int num, int start, int end)
+{
+    //辅助函数，计算个数
+    if (data == NULL)
+        return 0;
+    int count = 0;
+    for (int i = 0; i < num; i++)
+    {
+        if (data[i] >= start && data[i] <= end)
+            count++;
+    }
+    return count;
+}
+int get_duplite_2(int*data,int num)
+{
+    if (data == NULL || num <= 0)
+        return 0;
+    int start=1;
+    int end=num-1;
+    while(start<=end)
+    {
+        int mid=((end-start)>>1)+start;
+        int left_count = count(data,num, start, end);
+        if(start==end)
+        {
+            if(left_count>1)
+                return start;
+            else 
+                break;
+        }
+        if(left_count>(end-start+1))
+            end=mid;
+        else
+            start=mid+1;
+    }
+}
+
+int count(int*data,int num,int start,int end)
+{
+    //辅助函数，计算个数
+    if(data==NULL)
+        return 0;
+    int count=0;
+    for(int i=0;i<num;i++)
+    {
+        if(data[i]>=start && data[i]<=end)
+            count++;
+    }
+    return count;
+}
