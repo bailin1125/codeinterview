@@ -1,0 +1,98 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+//9 查找和排序
+//首先手写一下快速排序的
+void swap(int &a,int &b)
+{
+    int temp=a;
+    a=b;
+    b=temp;
+}
+int partion(int *data,int length,int start,int end)
+{
+    if(data==NULL|| length<=0 ||end>=length)
+        return -1;
+    int index=Randomrange(start,end);
+    swap(data[index],data[end]);//将挑好的放在最后
+    int small=start-1;
+    for(index=start;index<end;index++)
+    {
+        if(data[index]<data[end])
+        {
+            ++small;
+            if(small!=index)//比他小的放到左边
+                swap(data[index],data[small]);
+        }
+    }
+    small++;
+    swap(data[small],data[end]);
+    return small;
+}
+void quick_sort(int *data,int length,int start,int end)
+{
+    if(start==end)
+        return;
+    int index = partion(data,length,start,end);
+    if(index>start)
+        quick_sort(data,length,start,index-1);
+    if(index<end)
+        quick_sort(data,length,index+1,end);
+}
+
+//11 旋转数组的最小数字
+int min_oder(int *data,int start,int end)
+{
+    int min=data[start];
+    for(int i=start+1;i<end;i++)
+    {
+        if(data[i]<min)
+        {
+            min=data[i];
+        }
+    }
+    return min;
+}
+int min(int* data,int length)
+{
+    if(data==NULL|| length<=0)
+        return -1;
+    int left=0;
+    int right=length-1;
+    int mid=left;
+    while(data[left]>=data[right])
+    {
+        if((right-left)==1)
+            return data[right];
+        mid=left+((right-left)>>1);
+        //注意这里的特殊情况
+        if(data[left]==data[right])
+            return min_inoder(data,start,end);
+        if(data[mid]>=data[left])
+            left=mid;
+        else if(data[mid]<=data[right])
+            right=mid;
+    }
+    return data[mid];
+
+}
