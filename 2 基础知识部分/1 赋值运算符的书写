@@ -1,0 +1,48 @@
+//题目：n个骰子扔在地上，所有骰子朝上一面的点数之和为s，输入n，打印出s所有可能出现的概率
+
+//首先我们考虑递归的做法
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#pragma warning(disable : 4996)
+using namespace std;
+
+//1：赋值运算符函数
+class mystring
+{
+    public:
+    mystring(char* pdata=nullptr);
+    mystring(const mystring& temp);
+    mystring &operator=(const mystring &str);    
+    private:
+    char* mydata;
+};
+//这里需要我们注意，几个传值的设定。返回值，输入参数，先删掉自己的内存。
+//但是这个版本没有异常安全性，new报错怎么办
+mystring& mystring::operator=(const mystring& str)
+{
+    if(*this==str)
+        return *this;
+    delete[]mydata;
+    mydata=nullptr;
+    mydata=new char[strlen(str.mydata)+1];
+    strcpy(mydata,str.mydata);
+    return *this;
+}
+//一个简单的修改版本
+mystring &mystring::operator=(const mystring &str)
+{
+    if (*this == str)
+        return *this;
+   mystring temp(str);//先构建一个实例
+   char * temp_str=temp.mydata;
+   temp.mydata=mydata;
+   mydata=temp_str;
+   return *this;
+
+}
