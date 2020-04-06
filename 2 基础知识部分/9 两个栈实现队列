@@ -1,0 +1,63 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+//9 两个栈实现队列
+
+template <typename T> class myque
+{
+    public:
+        myque();
+        void push(const &T data);
+        T pop();
+    private:
+        stack<T> stack1;
+        stack<T> stack2;
+};
+//分析好push和pop的操作过程
+
+template <typename T>
+void myque::push(const &T data)
+{
+    stack1.push(data);
+}
+template <typename T> T myque::pop()
+{
+    if(stack2.size()>0)
+    {
+        T head=stack2.top();
+        stack2.pop();
+        return head;
+    }
+    else
+    {
+        while(stack1.size()>0)
+        {
+            T data=stack1.top();
+            stack1.pop();
+            stack2.push(data);
+        }
+        T head = stack2.top();
+        stack2.pop();
+        return head;
+    }
+}
