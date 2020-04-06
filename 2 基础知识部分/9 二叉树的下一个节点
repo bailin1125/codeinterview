@@ -1,0 +1,57 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+//9 二叉树的下一个节点  找出中序遍历的下一个节点
+
+Binarytree* get_next(Binarytree* head)
+{
+    if(head==NULL)
+        return NULL;
+    if(head->right!=NULL)
+    {
+        //有右子树的情况
+        Binarytree* temp=head->right;
+        while(temp->left)
+            temp=temp->left;
+        return temp;
+    }
+    else
+    {
+        //还要分两种情况
+        if(head==head->parent->left)
+        {
+            return head->parent;
+        }
+        else
+        {
+            Binarytree* cur=head;
+            Binarytree* par=head->parent;
+            while(cur &&cur==par->right)
+            {
+                cur=par;
+                par=par->parent;
+            }
+            return par->parent;
+        }
+    }
+}
