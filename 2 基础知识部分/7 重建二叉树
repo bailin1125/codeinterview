@@ -1,0 +1,55 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+};
+//7  重建二叉树，需要根据前序遍历和中序遍历来重建某棵树，返回头结点
+
+Binarytree* construct_tree(int * pre_oder,int* in_order,int length)
+{
+    Binarytree* head=help(pre_oder,in_order,0,length-1,0,length-1);
+    return head;
+}
+Binarytree* help(int *pre_oder,int* in_order,int pre_start,int pre_end,int in_start,int in_end)
+{
+    //首先创建根节点
+    Binarytree *head = new Listnode(0);
+    head->value = pre_oder[pre_start];
+    head->left = NULL;
+    head->right = NULL;
+    if(pre_start==pre_end  && in_start==in_end)
+        return head;
+    //在中序遍历中找到根节点的值
+    int index=in_start;
+    int root_value = pre_oder[pre_start];    
+    while (in_order[index]!=root_value && index<in_end)
+        index++;
+    int left_length =in_start;
+    if (index - in_start > 0)
+    {
+        head->left=help(pre_oder,in_order,pre_start+1,pre_start+left_length,in_start,index-1);
+    }
+    if(index-in_start <pre_end-pre_start)
+    {
+        head->right = help(pre_oder, in_order,pre_start+left_length+1,pre_end,index+1,in_end);
+    }
+    //然后开始递归的进行左右两边
+
+}
