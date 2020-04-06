@@ -1,0 +1,29 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#pragma warning(disable : 4996)
+using namespace std;
+
+//4 二维数组的查找
+bool find_number(int**matrix,int rows,int cloumns,int target)
+{
+    if(matrix==NULL || rows<0 || cloumns<0)
+        return false;
+    int row=0;//当前的寻找行数
+    int col=cloumns-1;//当前寻找的列数
+    while(row<rows && col>=0)
+    {
+        if(matrix[row][col]==target)
+            return true;
+        else if(matrix[row][col]>target)
+            col--;
+        else if(matrix[row][col]<target)
+            row++;
+    }
+    return false;
+}
