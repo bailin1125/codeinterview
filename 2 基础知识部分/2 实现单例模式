@@ -1,0 +1,45 @@
+//题目：n个骰子扔在地上，所有骰子朝上一面的点数之和为s，输入n，打印出s所有可能出现的概率
+
+//首先我们考虑递归的做法
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#pragma warning(disable : 4996)
+using namespace std;
+
+//1：实现单例模式
+//这个使用懒汉模式
+class mystring
+{
+    public:    
+    //mystring(const mystring& temp);
+        mystring &operator=(const mystring &str);
+        static mystring* get_Instance()
+        {
+            if(instance==NULL)
+            {
+                lock();
+                {
+                    if (instance == NULL)
+                    {
+                        instance = new mystring();
+                    }
+                }
+                unlock();           
+            }
+            return instance;
+        };
+       
+
+    private:
+        char* mydata;
+        mystring(char *pdata = nullptr);
+        static mystring* instance ;
+};
+//为了保证在多线程的情况下可以正常运行，需要考虑加锁
+//还有的比较好的做法
