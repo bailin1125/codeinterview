@@ -1,0 +1,46 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+//6 从头到尾打印链表
+void print_list(Listnode*head)
+{
+    //首先我们使用栈的辅助来实现
+    stack<Listnode*> st;
+    Listnode* pt = head;
+    while(pt!=NULL)
+    {
+        st.push(pt);
+        pt=pt->next;
+    }
+    //然后开始输出
+    while(!st.empty())
+    {
+        Listnode* temp=st.top();
+        st.pop();
+        printf("%d\n",temp->value);
+    }
+}
+
+//或者也可以使用递归
+void print_list_2(Listnode* head)
+{
+    if(head!=NULL)
+    {
+        if(head->next!=NULL)
+            print_list_2(head->next);
+        cout<<head->value<<endl;
+    }    
+}
