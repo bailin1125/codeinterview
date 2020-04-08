@@ -1,0 +1,56 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+
+//问题是一个最优解，该问题可以分解成若干个子问题，若干个子问题的解的组合是该问题的解
+//19 正则表达式匹配
+
+bool ifmatch(char* str,char*pattern)
+{
+    if(!str|| !pattern)
+        return false;
+    if(*str=='\0' && *pattern=='\0')
+        return true;
+    if(*str!='\0' && *pattern=='\0')
+        return false;
+    //首先最简单的,两边匹配了
+    if(*str==*pattern || (*pattern=='.' && *str!='\0'))
+        return ifmatch(str+1,pattern+1);
+    if(*(pattern+1)=='*')
+    {
+        if (*str == *pattern || (*pattern == '.' && *str != '\0'))//相等的话有三种选择
+        {
+            return ifmatch(str+1,pattern+2)||
+                    ifmatch(str+1,pattern)||
+                    ifmatch(str,pattern+2);
+
+        }
+        else
+        {
+            return ifmatch(str, pattern + 2);
+        }
+    }
+    return false;
+
+
+}
