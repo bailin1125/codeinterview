@@ -1,0 +1,53 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+
+//问题是一个最优解，该问题可以分解成若干个子问题，若干个子问题的解的组合是该问题的解
+//16 数值的整数次方
+//考虑一个错误，0的负数次方
+bool wrong_input=true;
+double my_pow_base(double base,int ex)
+{
+    double res=1.0;
+    for(int i=0;i<ex;i++)
+    {
+        res*=base;
+    }
+    return res;
+}
+double my_pow(double base,int ex)
+{
+    if(ex==0)
+        return 1;
+    if(euqal(base,0.0)&& ex<0)
+    {
+        wrong_input=true;
+        return 0;
+    }
+    double res=my_pow_base(base,abs(ex));
+    if(ex>0)
+        return res;
+    else
+        return 1.0/res;
+    
+}
