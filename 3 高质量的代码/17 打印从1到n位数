@@ -1,0 +1,73 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+	int value;
+	Listnode* next;
+};
+struct Binarytree
+{
+	int value;
+	Binarytree* left;
+	Binarytree* right;
+	Binarytree* parent;
+};
+
+//问题是一个最优解，该问题可以分解成若干个子问题，若干个子问题的解的组合是该问题的解
+//17 打印从1到最大的n位数
+//这里埋藏了一个陷阱，即这是一个典型的大数问题
+//我们用字符串来模拟这个过程
+void my_print_number(char* num)
+{
+	char *pt = num;
+	while (*pt == 0)
+		pt++;
+	cout << pt << endl;
+	return;
+}
+void help_print_number(char *number, int num, int step)
+{
+	if (step == num-1)
+	{
+		my_print_number(number);
+		return;
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		number[step + 1] = i + '0';
+		help_print_number(number, num, step + 1);
+	}
+}
+void print_number(int num)
+{
+	if (num <= 0)
+		return;
+	char * number = new char[num + 1];
+	for (int i = 0; i < num + 1; i++)
+		number[i] = '\0';
+	for (int i = 0; i < 10; i++)
+	{
+		number[0] = i + '0';
+		help_print_number(number, num, 0);
+	}
+	delete[]number;
+	return;
+}
+
+int main(int argc, char*argv[])
+{
+	int i = 0, j = 0;
+	print_number(3);
+	cin.get();
+	return 0;
+}
