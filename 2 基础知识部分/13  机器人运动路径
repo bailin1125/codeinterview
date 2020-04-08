@@ -1,0 +1,69 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+//13 机器人的运动范围
+int get_number(int x)
+{
+    int result=0;
+    while(x>0)
+    {
+        result+=x%10;
+        x/=10;
+    }
+    return result;
+}
+int help_movingcount(int ** matrix,int threhold,int cows,int cols,int **flag,int x, int y)
+{
+    //走到一个就标记一个
+    int count=0;
+    int number_x=0;
+    int number_y=0;
+    number_x=get_number(x);
+    number_y=get_number(y);
+    if(x >=0 && x<cows && y>=0 && y<cols &&flag[x][y]==0 && (number_y+number_x)<=threhold)
+    {
+        flag[x][y]=1;
+        count = 1 + help_movingcount(matrix, threhold, cows, cols, flag, x - 1, y) +
+                help_movingcount(matrix, threhold, cows, cols, flag, x +1, y) +
+                help_movingcount(matrix, threhold, cows, cols, flag, x , y-1) +
+                help_movingcount(matrix, threhold, cows, cols, flag, x , y+1) ;
+        return count;
+    }
+    else
+        return 0;
+}
+int movingcount(int threhold,int cows,int cols,int **matrix)
+{
+    if(threhold<0 || cows<=0 || cols<=0)
+        return 0;
+    //创建访问flag
+    int **flag=new int*[cows];
+    for(int i=0;i<cows;i++)
+    {
+        flag[i]=new int[cols];
+        for(int j=0;j<cols;j++)
+            flag[i][j]=0;
+    }
+    int result=help_movingcount(matrix,threhold,cows,cols,flag,0,0);
+    return result;
+}
