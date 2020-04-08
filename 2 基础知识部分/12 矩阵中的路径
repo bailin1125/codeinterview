@@ -1,0 +1,74 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+//12 矩阵中的路径
+bool find_path(char **matrix, int rows, int columns, int x, int y, string target, int step, int **flag)
+{
+    //先写退出条件
+    bool result = false;
+    if (step == (target.size()))
+        return true;
+    if (x >= 0 && x < rows && y >= 0 && y < columns && flag[x][y] == 0 && target[step] == matrix[x][y])
+    {
+        step++;
+        flag[x][y] = 1;
+        cout << x << "," << y << endl;
+        //然后开始选择一条路径去走
+        result = find_path(matrix, rows, columns, x + 1, y, target, step, flag) ||
+                 find_path(matrix, rows, columns, x - 1, y, target, step, flag) ||
+                 find_path(matrix, rows, columns, x, y + 1, target, step, flag) ||
+                 find_path(matrix, rows, columns, x, y - 1, target, step, flag);
+    }
+    else
+    {
+        //跳出条件
+        step--;
+        flag[x][y] = 0;
+    }
+    return result;
+}
+
+bool has_path(char **matrix, int rows, int colums, string target)
+{
+    //初始化访问标记
+    bool res = false;
+    int **flag = new int *[rows];
+    for (int i = 0; i < rows; i++)
+    {
+        flag[i] = new int[colums];
+        for (int j = 0; j < colums; j++)
+            flag[i][j] = 0;
+    }
+    if (matrix == NULL || rows <= 0 || colums <= 0)
+        return false;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < colums; j++)
+        {
+            res = find_path(matrix, rows, colums, i, j, target, 0, flag);
+            if (res == true)
+                return true;
+        }
+    }
+    return false;
+}
