@@ -1,0 +1,96 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+
+//问题是一个最优解，该问题可以分解成若干个子问题，若干个子问题的解的组合是该问题的解
+//18  删除链表的节点
+//题目1  o1时间内删掉指定节点
+
+void delete_single_node(Listnode* head,Listnode* target)
+{
+    if(!head || !target)
+        return;
+    if(target->next)//不是尾节点
+    {
+        Listnode* temp=target->next;
+        target->value=temp->value;
+        target->next=temp->next;
+        delete[]temp;
+    }
+    else if(head==target)
+    {
+        delete[]target;
+        head=NULL;
+    }
+    else //头结点的情况需要从头遍历
+    {
+        Listnode* phead=head;
+        while(phead->next!=target)
+        {
+            phead=phead->next;
+        }
+        phead->next=NULL;
+        delete target;
+    }
+}
+
+//题目2 ：删除排序号链表中的重复节点
+//三指针做法
+Listnode* delete_duplit(Listnode* head)
+{
+    if (head == NULL || head->next == NULL)
+        return head;
+    Listnode* dummy =new Listnode(0);
+    dummy->next=head;
+    Listnode* pre=dummy;
+    Listnode* cur=head;
+    Listnode* nex=head->next;
+    while(nex)
+    {
+        //首先先动最快的节点
+        while(nex &&cur->value==nex->value)
+        {
+            nex=nex->next;
+        }
+        //判断中间有没有东西
+        if(cur->next!=nex)//需要删掉cur到nex
+        {
+            while(cur!=nex)
+            {
+                pre->next=cur->next;
+                delete cur;
+                cur=pre->next;
+            }
+            if(nex)
+                nex=nex->next;
+        }
+        else//说明没有发生重组
+        {
+            pre=cur;
+            nex=nex->next;
+            cur=cur->next;
+        }
+    }
+    return dummy->next;
+
+}
