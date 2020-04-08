@@ -1,0 +1,76 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+//补充一下动态规划的三个特点
+//问题是一个最优解，该问题可以分解成若干个子问题，若干个子问题的解的组合是该问题的解
+//14 剪绳子
+//该问题可以分成若干个小绳子的剪切问题，
+int max_cutline(int length)
+{
+    //题目要求切成大于1段
+    if(length<2)
+        return 0;
+    if(length==2)
+        return 1;
+    if(length==3)
+        return 2;
+    int * res=new int[length+1];
+    res[0]=0;
+    res[1]=0;
+    res[2]=1;
+    res[3]=2;
+    for(int i=4;i<=length;i++)
+    {
+        int max_res=res[i-1];
+        for(int j=1;j<=i/2;j++)
+        {
+            max_res=max(max_res,res[j]*res[i-j]);
+        }
+        res[i]=max_res;
+    }
+    delete[]res;
+    return res[length];    
+}
+//对于这个题目还有贪心算法
+//需要想出策略，大于5的时候，尽可能剪出3的绳子，4的时候在2和2的中间切一刀
+int cut_lines(int length)
+{
+    if (length < 2)
+        return 0;
+    if (length == 2)
+        return 1;
+    if (length == 3)
+        return 2;
+    int three_num=0;
+    while(length>=5)
+    {
+        length-=3;
+        three_num++;
+    }
+    if(length==4)
+    {
+        return (pow(3,three_num)*length);
+    }
+    else
+        return (pow(3, three_num) * length);
+}
