@@ -1,0 +1,38 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+//补充一下动态规划的三个特点
+//问题是一个最优解，该问题可以分解成若干个子问题，若干个子问题的解的组合是该问题的解
+//15 位运算，二进制中的1的个数
+int count_one(int num)
+{
+    //注意符号位右移的情况，有可能引起死循环
+    //把数减一，和原来数做与运算，相当于最右边的1变成0
+    int count=0;
+    while(num)
+    {
+        count++;
+        num=(num-1)&num;
+    }
+    return count;
+}
