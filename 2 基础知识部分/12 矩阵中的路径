@@ -39,7 +39,8 @@ bool find_path(char **matrix, int rows, int columns, int x, int y, string target
                  find_path(matrix, rows, columns, x, y + 1, target, step, flag) ||
                  find_path(matrix, rows, columns, x, y - 1, target, step, flag);
     }
-    else
+    //如果走不通的话需要环路走
+    if(!result)
     {
         //跳出条件
         step--;
