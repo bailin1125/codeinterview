@@ -1,0 +1,60 @@
+#include <list>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include<stack>
+#pragma warning(disable : 4996)
+using namespace std;
+struct Listnode
+{
+    int value;
+    Listnode* next;
+};
+struct Binarytree
+{
+    int value;
+    Binarytree* left;
+    Binarytree* right;
+    Binarytree* parent;
+};
+
+//问题是一个最优解，该问题可以分解成若干个子问题，若干个子问题的解的组合是该问题的解
+//20 表示数值的字符串
+//关键是理解清楚表示的基本表达式
+bool get_number(char **str)
+{
+    //扫描可能的0-9字符串返回，并将str向后搦
+    if (**str == '+' || **str == '-')
+        ++*(str);
+    char *before = *str;
+    while (**str != '\0' && **str >= '0' && **str <= '9')
+    {
+        ++*(str);
+    }
+    return *str > before;
+}
+bool isnumresitc(char * str)
+{
+    if(str==NULL)
+        return false;
+    bool flag=get_number(&str);
+    if(*str=='.')
+    {
+        //有小数点的情况
+        //这里||的原因，可以只有前面数字，可以只有后面，也可以前后都有
+        ++str;
+        flag=get_number(&str) ||flag;
+    }
+    if(*(str)=='e' || *str=='E')
+    {
+        ++str;
+        //此时必须前后都有数字
+        flag=get_number(&str)&&flag;
+    }
+    return flag &&*str=='\0';
+}
+
